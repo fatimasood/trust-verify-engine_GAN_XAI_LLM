@@ -1,11 +1,32 @@
 import sqlite3
 import pandas as pd
+import os
+from pathlib import Path
 from src.utils import logger
+from dotenv import load_dotenv
+
+load_dotenv()  # Load .env file
 
 class DatabaseManager:
-    def __init__(self, db_path="data/reviews.db"):
+    def __init__(self, db_path=None):
+        # Check for DATABASE_URL in .env first
+        database_url = os.getenv('DATABASE_URL')
+        
+        if db_path is None and database_url:
+            # Extract path from sqlite:///data/reviews.db
+            if database_url.startswith('sqlite:///'):
+                db_path = database_url.replace('sqlite:///', '')
+            else:
+                db_path = 'data/reviews.db'
+        elif db_path is None:
+            db_path = 'data/reviews.db'
+        
+        # Ensure data directory exists
+        Path(db_path).parent.mkdir(parents=True, exist_ok=True)
+        
         self.conn = sqlite3.connect(db_path, check_same_thread=False)
         self._create_tables()
+        logger.info(f"Database initialized at {db_path}")
 
     def _create_tables(self):
         self.conn.execute('''CREATE TABLE IF NOT EXISTS reviews (

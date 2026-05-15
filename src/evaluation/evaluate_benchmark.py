@@ -8,7 +8,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pandas as pd
-from src.models import FreeAIDetector
+from src.models.free_ai_detector import FreeAIDetector
 from src.evaluation.evaluation_metrics import EvaluationMetrics
 from src.utils import logger
 

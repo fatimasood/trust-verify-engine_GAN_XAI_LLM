@@ -14,10 +14,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.scraper.universal_scraper import UniversalScraper
-from src.models import FreeAIDetector
+from src.models.free_ai_detector import FreeAIDetector
 from src.models.advanced_multimodal_detector import MultimodalConsistencyChecker
 from src.clustering.advanced_campaign_detector import AdvancedCampaignDetector
-from src.rag_engine.free_fact_checker import FreeFactChecker
+from src.models.rag_engine.free_fact_checker import FreeFactChecker
 from src.data_collection.database_manager import DatabaseManager
 from src.utils import logger
 
@@ -286,7 +286,11 @@ with tab5:
     st.subheader("AI Detector Settings")
     detector_model = st.selectbox(
         "AI Detector Model",
-        ["deberta-v3-large", "electra-base", "roberta-openai"]
+         [
+        "microsoft/deberta-v3-base",
+        "google/electra-base-discriminator",
+        "roberta-base"
+    ]
     )
     
     use_ensemble = st.checkbox("Use ensemble (slower, more accurate)", value=False)
@@ -294,7 +298,7 @@ with tab5:
     if st.button("Apply Settings"):
         st.session_state.ai_detector = FreeAIDetector(
             use_ensemble=use_ensemble,
-            model=detector_model
+            model_name=detector_model
         )
         st.success("✓ Settings applied")
     
@@ -318,6 +322,6 @@ with tab5:
 st.markdown("---")
 st.markdown("""
 <div style="text-align: center; color: gray;">
-    <p>TrustVerify Engine v1.0.0 | MS-Level Research Project | Made with ❤️</p>
+    <p>TrustVerify Engine v1.0.0 | Air University Student Project | Made with ❤️</p>
 </div>
 """, unsafe_allow_html=True)

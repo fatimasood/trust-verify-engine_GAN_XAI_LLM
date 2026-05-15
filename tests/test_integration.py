@@ -32,7 +32,7 @@ SAMPLE_REVIEWS = [
 
 def test_ai_detector():
     """Test AI text detection"""
-    from src.models import FreeAIDetector
+    from src.models.free_ai_detector import FreeAIDetector
     
     detector = FreeAIDetector()
     
